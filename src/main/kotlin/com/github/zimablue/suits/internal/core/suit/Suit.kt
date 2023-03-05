@@ -5,6 +5,7 @@ import com.github.zimablue.suits.PoemSuits.attrProviderManager
 import com.github.zimablue.suits.PoemSuits.suitDataManager
 import com.github.zimablue.suits.api.action.SuitAction
 import com.github.zimablue.suits.internal.manager.PSConfig.debug
+import com.github.zimablue.suits.slotapi.slot.PlayerSlot
 import com.github.zimablue.suits.util.ConfigUtil.getActions
 import com.github.zimablue.suits.util.ConfigUtil.getSections
 import com.github.zimablue.suits.util.StringUtil.deleteLine

@@ -1,3 +1,3 @@
 function main() {
-    print("套装件数js"+this.suit_amount)
+    this.player.sendMessage("套装件数(js)>>"+this.suit_amount)
 }

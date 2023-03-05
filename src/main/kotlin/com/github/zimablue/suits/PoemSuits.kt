@@ -68,7 +68,6 @@ object PoemSuits : Plugin(), SubPouvoir {
     }
 
     override fun onDisable() {
-        InventoryListener.onPluginDisable()
         disable()
     }
 }

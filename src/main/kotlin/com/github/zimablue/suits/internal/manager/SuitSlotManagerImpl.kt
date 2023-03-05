@@ -39,11 +39,10 @@ object SuitSlotManagerImpl : SuitSlotManager() {
         get() = slotConfig?.getBoolean("lore.enable")?:false
 
     override fun onEnable() {
-        debug{ info("SuitSlotManager Enable")}
         onReload()
     }
     override fun onReload() {
-        debug{ info("SuitSlotManager Reload")}
+        debug{ info("处理插件重载，更新槽位设置")}
         val slots = (slotConfig?.get("lore.key") as ConfigurationSection).toMap()
             .mapValues { (k,v) -> v.toString() }
         putAll(slots)

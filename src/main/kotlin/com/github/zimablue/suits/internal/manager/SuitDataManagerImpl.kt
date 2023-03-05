@@ -4,7 +4,9 @@ import com.github.zimablue.suits.api.manager.SuitDataManager
 import com.github.zimablue.suits.PoemSuits
 import com.github.zimablue.suits.internal.core.suit.Suit
 import com.github.zimablue.suits.internal.core.suit.SuitData
+import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import com.skillw.pouvoir.api.plugin.SubPouvoir
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.info
 
@@ -13,6 +15,18 @@ object SuitDataManagerImpl: SuitDataManager() {
     override val priority: Int = 5
     override val subPouvoir: SubPouvoir = PoemSuits
 
+    override fun onReload() {
+        debug { info("处理插件重载，更新套装效果") }
+        Bukkit.getOnlinePlayers().forEach { player ->
+            updateSuitData(player)
+        }
+    }
+    override fun onDisable() {
+        debug { info("处理插件卸载，消除套装效果") }
+        Bukkit.getOnlinePlayers().forEach { player ->
+            endSuitEffect(player)
+        }
+    }
     override fun updateSuitData(player: Player) {
         endSuitEffect(player)
         register(player.uniqueId, SuitData(player))

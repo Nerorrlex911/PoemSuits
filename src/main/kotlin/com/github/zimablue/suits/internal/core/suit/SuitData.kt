@@ -21,7 +21,7 @@ class SuitData(player: Player): Keyable<UUID>, BaseMap<Suit, Int>() {
 
             slot.get(player) {
                 it?.let{
-                    if (!it.isAir) add(suitManager.checkItem(it))
+                    if (!it.isAir) add(suitManager.checkItem(it,slot))
                 }
                 debug{ info("slotAPI id>$id,slot>$slot,item>$it")}
             }

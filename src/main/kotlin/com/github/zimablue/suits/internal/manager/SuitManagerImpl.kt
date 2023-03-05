@@ -3,6 +3,8 @@ package com.github.zimablue.suits.internal.manager
 import com.github.zimablue.suits.api.manager.SuitManager
 import com.github.zimablue.suits.internal.core.suit.Suit
 import com.github.zimablue.suits.PoemSuits
+import com.github.zimablue.suits.PoemSuits.suitSlotManager
+import com.github.zimablue.suits.slotapi.slot.PlayerSlot
 import com.github.zimablue.suits.util.FileWatcher.unwatch
 import com.github.zimablue.suits.util.FileWatcher.watch
 import com.skillw.pouvoir.api.plugin.SubPouvoir
@@ -50,8 +52,9 @@ object SuitManagerImpl: SuitManager() {
             .forEach { it.watch(this::reload); reload(it) }
     }
 
-    override fun checkItem(item: ItemStack): MutableSet<Suit> {
+    override fun checkItem(item: ItemStack,slot: PlayerSlot?): MutableSet<Suit> {
         val suitSet = mutableSetOf<Suit>()
+        if(slot!=null&&suitSlotManager.checkSlot(item,slot)) return suitSet
         forEach { (_,suit) ->
             if(suit.checkItem(item)) suitSet.add(suit)
         }

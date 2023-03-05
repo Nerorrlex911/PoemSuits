@@ -66,10 +66,4 @@ object InventoryListener {
         suitDataManager.removeAllSuitData(e.player)
     }
 
-    fun onPluginDisable(){
-        debug{ info("处理插件卸载") }
-        Bukkit.getOnlinePlayers().forEach { player ->
-            suitDataManager.endSuitEffect(player)
-        }
-    }
 }
