@@ -9,17 +9,11 @@ import com.comphenix.protocol.events.PacketEvent
 import com.github.zimablue.suits.PoemSuits.plugin
 import com.github.zimablue.suits.PoemSuits.suitDataManager
 import com.github.zimablue.suits.PoemSuits.suitManager
-import com.github.zimablue.suits.internal.manager.PSConfig.debug
-import com.github.zimablue.suits.util.nms.NMS
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
-import taboolib.common.platform.event.EventPriority
-import taboolib.common.platform.event.SubscribeEvent
-import taboolib.common.platform.function.info
-import taboolib.module.nms.PacketSendEvent
 
 object ItemDisplay {
     private val modes = arrayOf(GameMode.SURVIVAL, GameMode.ADVENTURE)
