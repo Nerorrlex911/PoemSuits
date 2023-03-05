@@ -1,0 +1,29 @@
+slot:
+  #用于判定原版装备放在什么槽位生效
+  #比如剑只能放在主手时才算作一件套装
+  #可以判断nbt(推荐，性能相对来说更好)，也可以判断lore
+  lore:
+    enable: true
+    #LoreMap匹配方式
+    #即按照正则匹配类似 “槽位: <槽位显示名>”这样的lore，相对于包含匹配性能更好
+    #若不启用LoreMap，则使用包含匹配，即全文搜索是否包含指定槽位显示名
+    #例如 HELMET设置为“冠” 则“可安装在 冠帽 槽位”，“怒发冲冠，凭栏处、潇潇雨歇。” 将匹配到 HELMET槽位
+    loremap:
+      enable: true
+      pattern:
+        match: "槽位"
+        value: ": (?<slot>.*)"
+    key:
+      MAINHAND: "主手"
+      OFFHAND: "副手"
+      HELMET: "头盔"
+      CHESTPLATE: "胸甲"
+      LEGGINGS: "护腿"
+      BOOTS: "靴子"
+  #是否判断nbt，若为true
+  #将判断 PoemSuits.slot 下是否包含指定槽位ID
+  #  PoemSuits:
+  #    slots:
+  #      - MAINHAND
+  #      - OFFHAND
+  nbt: true
