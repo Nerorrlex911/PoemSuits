@@ -11,7 +11,7 @@ import taboolib.common.platform.Awake
 
 object SuitActionManagerImpl : SuitActionManager() {
     override val key: String = "SuitActionManager"
-    override val priority: Int = 1
+    override val priority: Int = 2
     override val subPouvoir: SubPouvoir = PoemSuits
 
     override fun onLoad() {

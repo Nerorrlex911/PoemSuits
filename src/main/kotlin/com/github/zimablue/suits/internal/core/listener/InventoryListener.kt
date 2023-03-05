@@ -1,8 +1,8 @@
 package com.github.zimablue.suits.internal.core.listener
 
-import com.github.zimablue.suits.PoemSuits.slotManager
 import com.github.zimablue.suits.PoemSuits.suitDataManager
 import com.github.zimablue.suits.PoemSuits.suitManager
+import com.github.zimablue.suits.PoemSuits.suitSlotManager
 import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import com.github.zimablue.suits.slotapi.event.AsyncSlotUpdateEvent
 import org.bukkit.Bukkit
@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.info
+import taboolib.platform.util.isNotAir
 
 object InventoryListener {
 
@@ -22,8 +23,8 @@ object InventoryListener {
         val old = suitManager.checkItem(oldItem)
         val new = suitManager.checkItem(newItem)
         val slot = e.slot
-        val oldSlotCheck = slotManager.checkSlot(oldItem,slot)
-        val newSlotCheck = slotManager.checkSlot(newItem,slot)
+        val oldSlotCheck = oldItem.isNotAir() && slot!=null && suitSlotManager.checkSlot(oldItem,slot)
+        val newSlotCheck = oldItem.isNotAir() && slot!=null && suitSlotManager.checkSlot(newItem,slot)
         if (oldSlotCheck) {
             for(suit1 in old) {
                 if (newSlotCheck) {

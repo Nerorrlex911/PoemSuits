@@ -2,25 +2,27 @@ package com.github.zimablue.suits.internal.manager
 
 import com.github.zimablue.suits.PoemSuits
 import com.github.zimablue.suits.PoemSuits.configManager
-import com.github.zimablue.suits.api.manager.SlotManager
+import com.github.zimablue.suits.api.manager.SuitSlotManager
 import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import com.github.zimablue.suits.slotapi.slot.PlayerSlot
 import com.github.zimablue.suits.util.loremap.SuitOption
 import com.github.zimablue.suits.util.loremap.SuitSlot
 import com.skillw.pouvoir.api.plugin.SubPouvoir
+import com.skillw.pouvoir.util.toMap
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.info
 import taboolib.common5.LoreMap
 import taboolib.module.nms.getItemTag
+import taboolib.platform.util.isAir
 import java.util.regex.Pattern
 
-object SlotManagerImpl : SlotManager() {
+object SuitSlotManagerImpl : SuitSlotManager() {
 
-    override val key: String = "SlotManager"
-    override val priority: Int = 4
+    override val key: String = "SuitSlotManager"
+    override val priority: Int = 1
     override val subPouvoir: SubPouvoir = PoemSuits
-
-    val slotConfig = configManager["config"].getConfigurationSection("slot")
+    val slotConfig = configManager["slot"].getConfigurationSection("slot")
 
     val loremap_enable
         get() = slotConfig?.getBoolean("lore.loremap.enable")?:false
@@ -37,17 +39,19 @@ object SlotManagerImpl : SlotManager() {
         get() = slotConfig?.getBoolean("lore.enable")?:false
 
     override fun onEnable() {
-        debug{ info("SlotManager Enable")}
+        debug{ info("SuitSlotManager Enable")}
         onReload()
     }
     override fun onReload() {
-        debug{ info("SlotManager Reload")}
-        val slots = (slotConfig?.get("lore.key") as Map<*, *>)
-            .mapKeys { (k,v) -> k.toString() }.mapValues { (k,v) -> v.toString() }
+        debug{ info("SuitSlotManager Reload")}
+        val slots = (slotConfig?.get("lore.key") as ConfigurationSection).toMap()
+            .mapValues { (k,v) -> v.toString() }
         putAll(slots)
     }
+
     override fun checkSlot(item: ItemStack, slot: PlayerSlot): Boolean {
         debug { info("slot>> $slot","item>> $item") }
+        if(item.isAir) return false
         //nbt
         if (nbt) {
             return item.getItemTag().getDeep("PoemSuits.slots").asList().any { it.asString()==slot.toString() }
@@ -81,4 +85,5 @@ object SlotManagerImpl : SlotManager() {
         }
         return false
     }
+
 }

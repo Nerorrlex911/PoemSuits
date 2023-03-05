@@ -6,14 +6,21 @@ import org.bukkit.Bukkit
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import com.github.zimablue.suits.slotapi.PlayerSlotAPI
+import com.github.zimablue.suits.slotapi.slot.PlayerSlot
 import com.github.zimablue.suits.slotapi.slot.impl.DragonCoreSlot
 import com.github.zimablue.suits.slotapi.slot.impl.GermPluginSlot
+import com.github.zimablue.suits.util.loremap.SuitOption
+import com.github.zimablue.suits.util.loremap.SuitSlot
 import com.skillw.pouvoir.Pouvoir
+import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.info
+import taboolib.common5.LoreMap
 import taboolib.module.lang.sendLang
+import taboolib.module.nms.getItemTag
 import java.io.File
+import java.util.regex.Pattern
 
 object PSConfig : ConfigManager(PoemSuits) {
     override val priority: Int = 0
@@ -45,9 +52,6 @@ object PSConfig : ConfigManager(PoemSuits) {
     fun registerSlots() {
 
         val api = PlayerSlotAPI.getAPI()
-        debug{info("api: $api")}
-        debug{info(vanilla)}
-        debug{info("plugin${PlayerSlotAPI.getPlugin()}")}
         if(vanilla) api.registerVanilla()
         debugMessage("原版槽位注册成功")
         if(germ_enable && Bukkit.getPluginManager().isPluginEnabled("GermPlugin")) this["config"].getStringList("germ_plugin_slot.slots").forEach {
@@ -71,6 +75,7 @@ object PSConfig : ConfigManager(PoemSuits) {
         api.reload()
 
     }
+
     @JvmStatic
     fun debug(debug: () -> Unit) {
         if (PSConfig.debug) {

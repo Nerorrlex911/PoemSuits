@@ -5,6 +5,6 @@ import com.skillw.pouvoir.api.manager.Manager
 import com.skillw.pouvoir.api.plugin.map.BaseMap
 import org.bukkit.inventory.ItemStack
 
-abstract class SlotManager : Manager,BaseMap<String,String>() {
+abstract class SuitSlotManager : Manager,BaseMap<String,String>() {
     abstract fun checkSlot(item: ItemStack,slot: PlayerSlot) : Boolean
 }

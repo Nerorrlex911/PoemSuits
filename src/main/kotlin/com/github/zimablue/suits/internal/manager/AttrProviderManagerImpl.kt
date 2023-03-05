@@ -6,6 +6,6 @@ import com.skillw.pouvoir.api.plugin.SubPouvoir
 
 object AttrProviderManagerImpl: AttrProviderManager() {
     override val key: String = "AttrProviderManager"
-    override val priority: Int = 3
+    override val priority: Int = 4
     override val subPouvoir: SubPouvoir = PoemSuits
 }

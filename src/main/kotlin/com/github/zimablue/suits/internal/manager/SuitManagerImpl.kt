@@ -18,7 +18,7 @@ import java.io.File
 
 object SuitManagerImpl: SuitManager() {
     override val key: String = "SuitManager"
-    override val priority: Int = 2
+    override val priority: Int = 3
     override val subPouvoir: SubPouvoir = PoemSuits
     private val suits = BaseMap<File, HashSet<String>>()
 
