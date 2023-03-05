@@ -54,7 +54,7 @@ object SuitSlotManagerImpl : SuitSlotManager() {
         if(item.isAir) return false
         //nbt
         if (nbt) {
-            return item.getItemTag().getDeep("PoemSuits.slots").asList().any { it.asString()==slot.toString() }
+            return item.getItemTag().getDeep("PoemSuits.slots")?.asList()?.any { it!=null&&it.asString()==slot.toString() }?:false
         }
         //lore
         if(lore) {
