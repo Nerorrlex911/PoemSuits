@@ -1,0 +1,71 @@
+ExampleSuit:
+  check:
+    lore: "套装>>测试套装" #整行匹配
+#    PoemSuits:
+#      suits:
+#        - "套装1"
+#        - "套装2"
+
+    nbt: "测试套装"
+  display:
+    origin:
+      - "&7---测试套装信息---"
+      - "套装未激活"
+    replace:
+      - "&f---&l套装信息&f---"
+      - "属性附加"
+      - "{&attributes}"
+
+        #【 { if check &suit_amount > 2 then '' else 'DELETE' } 】 的意思是，如果套装件数大于2，则不做任何事
+        # 如果套装件数不大于2，则此行lore不显示（直接删除，不会有空行）
+        # 如果"为什么它会是这样"令你辗转反侧，请带着打破砂锅问到底的决心看下方的原理实现
+        # 原理:
+        # 解析Asahi语句，当某一行包含 "DELETE" 时删除这一行
+      - "套装技能: { if check &suit_amount > 2 then '' else 'DELETE' }"
+      - "受击时有{ calculate '&suit_amount * 10' }%概率产生爆炸，击退敌人 { if check &suit_amount > 2 then '' else 'DELETE' }"
+  #套装能够给予的属性效果
+  attributes:
+    #指定兼容哪个属性插件
+    #目前支持AS，AP，OA，SX
+    compat: ap
+    #针对特定件数生效
+    list:
+      #这里可以使用公式计算
+      - "物理伤害: ${ calculate '${suit_amount} * 20' }"
+      - "火元素伤害: 10(%)"
+      #【 { if check &suit_amount > 2 then '' else 'DELETE' } 】 的意思是，如果套装件数大于2，则不做任何事
+      # 如果套装件数不大于2，则此行lore不显示（直接删除，不会有空行）
+      # 如果"为什么它会是这样"令你辗转反侧，请带着打破砂锅问到底的决心看下方的原理实现
+      # 原理:
+      # 解析Asahi语句，当某一行包含 "DELETE" 时删除这一行
+      - "土元素伤害: 10(%){ if check &suit_amount > 2 then '' else 'DELETE' }"
+  #套装动作脚本，用于制作复杂套装效果，支持JavaScript(js)，Kether(kether)，Asahi(asahi)
+  action:
+    #start的触发
+    #装备更新(简单理解就是有套装组合成功或者有套装被拆散)时(更新套装数据->onend结束旧数据对应的效果->onstart开始新数据对应的效果)
+    #加入服务器时(更新套装数据->onstart开始新数据对应的效果)
+    onStart:
+      - type: js #触发脚本的种类(js,kether,asahi),在脚本中suit_amount变量为套装件数
+        run: Example.js::main #格式为js文件名::函数名
+      - type: asahi
+        namespaces: [ bukkit,attsystem ]
+        run: |-
+          print '套装件数: ${&suit_amount}' 
+
+    #end的触发
+    #装备更新(简单理解就是有套装组合成功或者有套装被拆散)时(更新套装数据->onend结束旧数据对应的效果->onstart开始新数据对应的效果)
+    #退出服务器时(移除套装数据->onend结束旧数据对应的效果)
+    onEnd:
+      - type: asahi
+        namespaces: [ bukkit,attsystem ]
+        run: |-
+          print '套装件数: ${&suit_amount}'
+    #timer
+    #即为在满足套装条件时，每隔一段时间触发一次
+    onTimer:
+        #间隔时间,以tick为单位，你可以简单理解为 1s约等于20tick
+      - period: 20
+        type: kether
+        run: |-
+          print "套装件数: &suit_amount"
+
