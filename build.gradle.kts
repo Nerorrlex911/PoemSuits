@@ -5,6 +5,16 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.7.20"
 }
 
+val api: String? by project
+
+task("versionCheck") {
+    if (api != null) {
+        val origin = project.version.toString()
+        project.version = "$origin-api"
+    }
+}
+
+
 taboolib {
     description {
         contributors {
