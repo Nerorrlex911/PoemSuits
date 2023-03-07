@@ -24,6 +24,7 @@ taboolib {
             name("Zima_Blue")
         }
         dependencies {
+            name("MythicMobs").optional(true)
             name("ProtocolLib").optional(true)
             name("AttributeSystem").optional(true)
             name("SX-Attribute").optional(true)
