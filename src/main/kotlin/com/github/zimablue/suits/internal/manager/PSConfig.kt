@@ -37,6 +37,7 @@ object PSConfig : ConfigManager(PoemSuits) {
     }
     override fun onEnable() {
         onReload()
+        Pouvoir.triggerHandlerManager.addSubPouvoir(PoemSuits)
     }
 
     val debug

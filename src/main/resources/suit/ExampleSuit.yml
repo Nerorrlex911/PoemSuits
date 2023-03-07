@@ -7,10 +7,13 @@ ExampleSuit:
 #        - "套装2"
 
     nbt: "测试套装"
+  #虚拟lore，用于展示套装信息
   display:
+    #将替换掉的原本lore
     origin:
       - "&7---测试套装信息---"
       - "套装未激活"
+    #替换后的lore，可以使用 <Ln> 作为换行符
     replace:
       - "&f---&l套装信息&f---"
       - "&f属性附加"
@@ -21,8 +24,9 @@ ExampleSuit:
         # 如果"为什么它会是这样"令你辗转反侧，请带着打破砂锅问到底的决心看下方的原理实现
         # 原理:
         # 解析Asahi语句，当某一行包含 "DELETE" 时删除这一行
-      - "套装技能: { if check &suit_amount > 2 then '' else 'DELETE' }"
-      - "受击时有{ calculate '${suit_amount} * 10' }%概率产生爆炸，击退敌人 { if check &suit_amount > 2 then '' else 'DELETE' }"
+      - "&f套装技能: { if check &suit_amount > 2 then '' else 'DELETE' }"
+      - "&f受击时有{ calculate '${suit_amount} * 10' }%概率产生爆炸，击退敌人 { if check &suit_amount > 2 then '' else 'DELETE' }"
+      - "&f每3秒有{ calculate '${suit_amount} * 10' }%概率爆发火花，点燃周围敌人 { if check &suit_amount > 2 then '' else 'DELETE' }"
   #套装能够给予的属性效果
   attributes:
     #指定兼容哪个属性插件
@@ -69,4 +73,7 @@ ExampleSuit:
         type: kether
         run: |-
           print join [ "套装件数: " &suit_amount ]
+      - period: 60
+        type: mythic
+        skillId: "套装技能-火花"
 

@@ -16,6 +16,9 @@ task("versionCheck") {
 
 
 taboolib {
+    if (project.version.toString().contains("-api")) {
+        options("skip-kotlin-relocate")
+    }
     description {
         contributors {
             name("Zima_Blue")
