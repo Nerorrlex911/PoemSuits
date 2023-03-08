@@ -9,11 +9,15 @@ import com.comphenix.protocol.events.PacketEvent
 import com.github.zimablue.suits.PoemSuits.plugin
 import com.github.zimablue.suits.PoemSuits.suitDataManager
 import com.github.zimablue.suits.PoemSuits.suitManager
+import com.github.zimablue.suits.internal.core.feature.display.ItemDisplay.parse
+import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.function.info
+import taboolib.common.platform.function.submit
 
 object ItemDisplay {
     private val modes = arrayOf(GameMode.SURVIVAL, GameMode.ADVENTURE)
@@ -67,12 +71,15 @@ object ItemDisplay {
                 if (gameMode == GameMode.SURVIVAL || gameMode == GameMode.ADVENTURE) {
                     if (event.packetType == PacketType.Play.Server.WINDOW_ITEMS) {
                         val items = event.packet.itemListModifier.read(0)
+                        debug{info("Packet_Window_Items")}
                         items.forEach { itemStack ->
                             itemStack.parse(player)
                         }
                         event.packet.itemListModifier.write(0, items)
                     } else {
                         val itemStack = event.packet.itemModifier.read(0)
+                        //AsyncSlotUpdate会延迟1tick后触发,而发包lore必须在套装数据更新后更新才准确
+                        debug{info("Packet_Set_Slot","slot:")}
                         itemStack.parse(player)
                         event.packet.itemModifier.write(0, itemStack)
                     }

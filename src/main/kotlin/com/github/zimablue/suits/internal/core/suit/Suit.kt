@@ -3,11 +3,8 @@ package com.github.zimablue.suits.internal.core.suit
 
 import com.github.zimablue.suits.PoemSuits.attrProviderManager
 import com.github.zimablue.suits.PoemSuits.suitDataManager
-import com.github.zimablue.suits.api.action.SuitAction
 import com.github.zimablue.suits.internal.manager.PSConfig.debug
-import com.github.zimablue.suits.slotapi.slot.PlayerSlot
 import com.github.zimablue.suits.util.ConfigUtil.getActions
-import com.github.zimablue.suits.util.ConfigUtil.getSections
 import com.github.zimablue.suits.util.StringUtil.deleteLine
 import com.github.zimablue.suits.util.StringUtil.joinLine
 import com.github.zimablue.suits.util.StringUtil.splitLine
@@ -20,7 +17,6 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.info
 import taboolib.common.platform.function.submit
 import taboolib.module.chat.colored
-import taboolib.module.chat.uncolored
 import taboolib.module.nms.getItemTag
 import taboolib.platform.util.isAir
 
@@ -95,13 +91,15 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
         //onTimer Actions
         debug{ info("onTimer start Actions> > $timerActions") }
         val uuid = player.uniqueId
-        for (action in timerActions) {
-            if (action == null) continue
-            suitDataManager[uuid]!!.suitTasks[this@Suit] =
-                submit(async = true, period = action.period) {
-                    action.execute(context)
+        suitDataManager[uuid]!!.suitTasks[this@Suit] =
+            submit(async = true, period = 1) {
+                for (action in timerActions) {
+                    if (action == null) continue
+                    if(action.buffer.hasNext(uuid.toString())) {
+                        action.execute(context)
+                    }
                 }
-        }
+            }
 
     }
 
@@ -121,6 +119,16 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
         //onTimer Actions
         debug{ info("onTimer end Actions") }
         val uuid = player.uniqueId
-        suitDataManager[uuid]!!.suitTasks[this@Suit]?.cancel()
+        val task by lazy { suitDataManager[uuid]!!.suitTasks.remove(this@Suit) }
+        debug{info("task-${this@Suit}> $task")}
+        task!!.cancel()
+        for (action in timerActions) {
+            if (action == null) continue
+            action.buffer.reset(uuid.toString())
+        }
+    }
+
+    override fun toString(): String {
+        return this.key
     }
 }

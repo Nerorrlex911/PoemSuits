@@ -54,7 +54,7 @@ object SuitManagerImpl: SuitManager() {
 
     override fun checkItem(item: ItemStack,slot: PlayerSlot?): MutableSet<Suit> {
         val suitSet = mutableSetOf<Suit>()
-        if(slot!=null&&suitSlotManager.checkSlot(item,slot)) return suitSet
+        if(slot!=null&&!suitSlotManager.checkSlot(item,slot)) return suitSet
         forEach { (_,suit) ->
             if(suit.checkItem(item)) suitSet.add(suit)
         }

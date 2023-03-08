@@ -12,6 +12,7 @@ class KetherAction(actionConfig: Map<String, Any?>): SuitAction(actionConfig)  {
     override val key: String = "kether"
     val action = actionConfig["run"].toString()
     override fun execute(context: MutableMap<String, Any>) {
+        super.execute(context)
         try {
             KetherShell.eval(source = action, vars = KetherShell.VariableMap(context)) {
                 sender = context["player"]?.let { adaptCommandSender(it) }

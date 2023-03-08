@@ -55,7 +55,7 @@ ExampleSuit:
       - type: asahi
         namespaces: [ bukkit,attsystem ]
         run: |-
-          print '套装件数: ${suit_amount}' 
+          print inline '套装件数: ${suit_amount}' 
 
     #end的触发
     #装备更新(简单理解就是有套装组合成功或者有套装被拆散)时(更新套装数据->onend结束旧数据对应的效果->onstart开始新数据对应的效果)
@@ -64,7 +64,7 @@ ExampleSuit:
       - type: asahi
         namespaces: [ bukkit,attsystem ]
         run: |-
-          print '套装件数: ${suit_amount}'
+          print inline '套装件数: ${suit_amount}'
     #timer
     #即为在满足套装条件时，每隔一段时间触发一次
     onTimer:

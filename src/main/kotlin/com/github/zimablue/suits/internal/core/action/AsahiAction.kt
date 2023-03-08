@@ -11,6 +11,7 @@ class AsahiAction(actionConfig: Map<String, Any?>): SuitAction(actionConfig)  {
     val script = actionConfig["run"].toString()
         .compile(*(actionConfig["namespaces"] as List<*>).map{it as String}.toTypedArray())
     override fun execute(context: MutableMap<String, Any>) {
+        super.execute(context)
         script.apply {
             AsahiContext.create(context).execute()
         }

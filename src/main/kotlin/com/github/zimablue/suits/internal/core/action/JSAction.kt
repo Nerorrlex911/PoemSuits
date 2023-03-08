@@ -8,6 +8,7 @@ class JSAction(actionConfig: Map<String, Any?>): SuitAction(actionConfig) {
     override val key = "js"
     val script = actionConfig["run"].toString()
     override fun execute(context: MutableMap<String, Any>) {
+        super.execute(context)
         scriptManager.invoke<Any?>("/plugins/PoemSuits/scripts/$script",context)
     }
 }

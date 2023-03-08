@@ -12,6 +12,7 @@ class MythicAction(actionConfig: Map<String, Any?>): SuitAction(actionConfig) {
     val skillId = actionConfig["skillId"].toString()
 
     override fun execute(context: MutableMap<String, Any>) {
+        super.execute(context)
         Mythic.API.castSkill(caster=context["player"] as Player, skillName = skillId, power = context["suit_amount"].cfloat)
     }
 }

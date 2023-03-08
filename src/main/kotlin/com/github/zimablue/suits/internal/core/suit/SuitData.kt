@@ -14,7 +14,7 @@ import java.util.UUID
 class SuitData(player: Player): Keyable<UUID>, BaseMap<Suit, Int>() {
 
     override val key: UUID = player.uniqueId
-    val suitTasks = mutableMapOf<Suit,PlatformExecutor.PlatformTask>()
+    val suitTasks by lazy { mutableMapOf<Suit, PlatformExecutor.PlatformTask>() }
 
     init {
         PlayerSlotAPI.getAPI().slotMap.forEach { (id, slot) ->
@@ -49,5 +49,9 @@ class SuitData(player: Player): Keyable<UUID>, BaseMap<Suit, Int>() {
                 "currentData: $this"
             )
         }
+    }
+
+    override fun toString(): String {
+        return "suits>>${this.map},tasks>>${this.suitTasks}"
     }
 }

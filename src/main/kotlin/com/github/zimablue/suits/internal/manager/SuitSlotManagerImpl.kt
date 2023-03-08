@@ -49,7 +49,7 @@ object SuitSlotManagerImpl : SuitSlotManager() {
     }
 
     override fun checkSlot(item: ItemStack, slot: PlayerSlot): Boolean {
-        debug { info("slot>> $slot","item>> $item") }
+        debug { info("SuitSlotCheck>>  slot>> $slot","item>> $item") }
         if(item.isAir) return false
         //nbt
         if (nbt) {
