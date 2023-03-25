@@ -5,9 +5,12 @@ import com.github.zimablue.suits.PoemSuits.configManager
 import com.github.zimablue.suits.api.manager.SuitSlotManager
 import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import com.github.zimablue.suits.slotapi.slot.PlayerSlot
+import com.github.zimablue.suits.slotapi.slot.impl.VanillaEquipSlot
 import com.github.zimablue.suits.util.loremap.SuitOption
 import com.github.zimablue.suits.util.loremap.SuitSlot
 import com.skillw.pouvoir.api.plugin.SubPouvoir
+import com.skillw.pouvoir.api.plugin.map.BaseMap
+import com.skillw.pouvoir.api.plugin.map.KeyMap
 import com.skillw.pouvoir.util.toMap
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.inventory.ItemStack
@@ -23,6 +26,14 @@ object SuitSlotManagerImpl : SuitSlotManager() {
     override val priority: Int = 1
     override val subPouvoir: SubPouvoir = PoemSuits
     val slotConfig = configManager["slot"].getConfigurationSection("slot")
+    val VANILLASLOT = BaseMap<Int,PlayerSlot>().apply {
+        register(-1,VanillaEquipSlot.MAINHAND)
+        register(45,VanillaEquipSlot.OFFHAND)
+        register(5,VanillaEquipSlot.HELMET)
+        register(6,VanillaEquipSlot.CHESTPLATE)
+        register(7,VanillaEquipSlot.LEGGINGS)
+        register(8,VanillaEquipSlot.BOOTS)
+    }
 
     val loremap_enable
         get() = slotConfig?.getBoolean("lore.loremap.enable")?:false
@@ -46,6 +57,13 @@ object SuitSlotManagerImpl : SuitSlotManager() {
         val slots = (slotConfig?.get("lore.key") as ConfigurationSection).toMap()
             .mapValues { (k,v) -> v.toString() }
         putAll(slots)
+    }
+
+    override fun getSlot(slot: Int): PlayerSlot? {
+        debug{
+            info("getSlot> slot>> $slot")
+        }
+        return VANILLASLOT[slot]
     }
 
     override fun checkSlot(item: ItemStack, slot: PlayerSlot): Boolean {

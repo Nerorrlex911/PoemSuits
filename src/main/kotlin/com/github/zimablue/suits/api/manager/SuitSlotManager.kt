@@ -7,4 +7,5 @@ import org.bukkit.inventory.ItemStack
 
 abstract class SuitSlotManager : Manager,BaseMap<String,String>() {
     abstract fun checkSlot(item: ItemStack,slot: PlayerSlot) : Boolean
+    abstract fun getSlot(slot: Int) : PlayerSlot?
 }
