@@ -79,14 +79,15 @@ object SuitSlotManagerImpl : SuitSlotManager() {
                 item.itemMeta?.lore?.let {lores ->
                     for(line in lores) {
                         // 在 LoreMap 中匹配属性
-                        val matchResult = loreMap.getMatchResult(line)
+                        val matchResult = loreMap.getMatchResult(line)?:return false
                         // 如果没匹配到则处理下一条
                         if (matchResult.obj != SuitSlot) {
                             continue;
                         }
                         // 取属性描述右边剩下没匹配完的,没匹配完的啥也没有，说明属性右边没数字，跳过
                         val remain = matchResult.remain ?: continue;
-                        val matched = loremapValue.matcher(remain).group("slot")
+                        val matched = loremapValue.matcher(remain).group("slot")?:return false
+
                         debug {
                             info(
                                 "remain: $remain",
