@@ -42,10 +42,12 @@ public class PlayerSlotAPI {
     private static final Plugin PLUGIN;
 
     static {
+        PLUGIN = PoemSuits.INSTANCE.getPlugin();
+        API = new PlayerSlotAPI();
         if (Bukkit.getPluginManager().getPlugin("GermPlugin") != null) {
             //萌芽
             GERM_PLUGIN_HOOK = new GermPluginHook();
-            DragonCoreHook.register();
+            GermPluginHook.register();
             Bukkit.getConsoleSender().sendMessage(PREFIX+"已加载GermPlugin作为前置!");
         } else {
             GERM_PLUGIN_HOOK = null;
@@ -53,26 +55,10 @@ public class PlayerSlotAPI {
         if (Bukkit.getPluginManager().getPlugin("DragonCore") != null) {
             //龙核
             DRAGON_CORE_HOOK = new DragonCoreHook();
-            GermPluginHook.register();
+            DragonCoreHook.register();
             Bukkit.getConsoleSender().sendMessage(PREFIX+"已加载DragonCore作为前置!");
         } else {
             DRAGON_CORE_HOOK = null;
-        }
-        ClassLoader loader = PlayerSlotAPI.class.getClassLoader();
-        try {
-            Class<?> pluginClassLoader = Class.forName("org.bukkit.plugin.java.PluginClassLoader");
-            while (!(pluginClassLoader.isInstance(loader))) {
-                loader = loader.getParent();
-                if (loader == null) {
-                    throw new RuntimeException(PREFIX + "错误：未找到Bukkit插件主类");
-                }
-            }
-            Field field = pluginClassLoader.getDeclaredField("plugin");
-            field.setAccessible(true);
-            PLUGIN = (Plugin) field.get(loader);
-            API = new PlayerSlotAPI();
-        }catch (Exception e){
-            throw new RuntimeException(PREFIX + "错误：未找到Bukkit插件主类");
         }
     }
 

@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.swing.text.StyledEditorKit;
 import java.util.Map;
 
 public class GermPluginHook {
