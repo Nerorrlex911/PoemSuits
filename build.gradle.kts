@@ -30,6 +30,8 @@ taboolib {
             name("SX-Attribute").optional(true)
             name("AttributePlus").optional(true)
             name("OriginAttribute").optional(true)
+            name("DragonCore").optional(true)
+            name("GermPlugin").optional(true)
             name("Pouvoir")
         }
     }
@@ -42,7 +44,6 @@ taboolib {
     install("module-metrics")
     install("module-nms")
     install("module-nms-util")
-    install("module-ui")
     install("platform-bukkit")
     install("expansion-command-helper")
     classifier = null
