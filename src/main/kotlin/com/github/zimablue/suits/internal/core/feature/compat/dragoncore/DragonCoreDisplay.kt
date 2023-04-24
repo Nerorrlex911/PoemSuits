@@ -9,6 +9,7 @@ import com.github.zimablue.suits.util.StringUtil.splitLine
 import com.skillw.asahi.api.AsahiAPI.analysis
 import com.skillw.asahi.api.member.context.AsahiContext
 import eos.moe.dragoncore.api.gui.event.CustomPacketEvent
+import eos.moe.dragoncore.network.PacketSender
 import eos.moe.dragoncore.util.ItemUtil
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
@@ -35,7 +36,7 @@ object DragonCoreDisplay {
             placeHolder["PoemSuits_Info_${suit.key}"] = suitLore.joinToString("\n")
             placeHolder["PoemSuits_RowCount_${suit.key}"] = suitLore.size.toString()
             placeHolder["PoemSuits_LongestLength_${suit.key}"] = suitLore.longestLength().toString()
-
         }
+        PacketSender.sendSyncPlaceholder(e.player,placeHolder)
     }
 }
