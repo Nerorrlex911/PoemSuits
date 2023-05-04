@@ -24,6 +24,8 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
     override val key: String = suitConfig.name
     val lore = suitConfig["check.lore"]
     val nbt = suitConfig["check.nbt"]
+    val lore_enable = lore == "disable"
+    val nbt_enable = nbt == "disable"
     val displayOrigin = suitConfig.getStringList("display.origin").joinLine()
     val displayReplace = suitConfig.getStringList("display.replace").joinLine()
     val attrProvider = attrProviderManager[suitConfig.getString("attributes.compat") ?: "AP"]
@@ -35,8 +37,8 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
         if(item.isAir) return false
         val suits = item.getItemTag().getDeep("PoemSuits.suits")?.asList()
         val itemLore = item.itemMeta?.lore
-        val nbtMatch = suits?.any { it.asString() == nbt }?:false
-        val loreMatch = itemLore?.contains(lore)?:false
+        val nbtMatch = if(nbt_enable) suits?.any { it.asString() == nbt }?:false else false
+        val loreMatch = if(lore_enable) itemLore?.contains(lore)?:false else false
         debug {
             info(
                 "suitsNBT> $suits",

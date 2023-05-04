@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.info
+import taboolib.common.platform.function.submit
 
 object InventoryListener {
 
@@ -48,7 +49,9 @@ object InventoryListener {
     @SubscribeEvent(EventPriority.LOW)
     fun onPlayerJoin(e: PlayerJoinEvent) {
         debug { info("处理玩家登录事件") }
-        suitDataManager.updateSuitData(e.player)
+        submit(delay = 1) {
+            suitDataManager.updateSuitData(e.player)
+        }
     }
 
     @SubscribeEvent(EventPriority.LOW)
