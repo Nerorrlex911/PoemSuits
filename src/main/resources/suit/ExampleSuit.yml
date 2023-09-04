@@ -7,7 +7,7 @@ ExampleSuit:
 #        - "套装2"
 
     nbt: "测试套装"
-  #虚拟lore，用于展示套装信息
+  #动态lore，用于展示套装信息，发包lore已经弃置，现在只兼容龙核
   display:
     #将替换掉的原本lore
     origin:

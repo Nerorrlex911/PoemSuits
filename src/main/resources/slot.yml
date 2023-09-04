@@ -12,7 +12,7 @@ slot:
       enable: true
       pattern:
         match: "槽位"
-        value: ": (?<slot>.*)"
+        value: ":(.*)"
     key:
       MAINHAND: "主手"
       OFFHAND: "副手"
