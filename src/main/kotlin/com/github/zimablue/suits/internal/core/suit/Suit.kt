@@ -19,13 +19,14 @@ import taboolib.common.platform.function.submit
 import taboolib.module.chat.colored
 import taboolib.module.nms.getItemTag
 import taboolib.platform.util.isAir
+import taboolib.platform.util.serializeToByteArray
 
 class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
     override val key: String = suitConfig.name
     val lore = suitConfig["check.lore"]
     val nbt = suitConfig["check.nbt"]
-    val lore_enable = lore == "disable"
-    val nbt_enable = nbt == "disable"
+    val lore_enable = lore != "disable"
+    val nbt_enable = nbt != "disable"
     val displayOrigin = suitConfig.getStringList("display.origin").joinLine()
     val displayReplace = suitConfig.getStringList("display.replace").joinLine()
     val attrProvider = attrProviderManager[suitConfig.getString("attributes.compat") ?: "AP"]
@@ -41,6 +42,7 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
         val loreMatch = if(lore_enable) itemLore?.contains(lore)?:false else false
         debug {
             info(
+                "suit.checkItem",
                 "suitsNBT> $suits",
                 "lores> $itemLore",
                 "nbtMatch> $nbtMatch",
@@ -58,6 +60,7 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
                 "attributes" to attributes.joinLine()
             )
         )
+
         val meta = item.itemMeta?:return
         if(!meta.hasLore()) return
         val lore = meta.lore!!
@@ -75,7 +78,13 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
     }
 
     private fun getAttributes(context: AsahiContext): List<String> {
-        return attributes.map { it.analysis(context) }
+        val attrParsed = attributes.map {
+            it.analysis(context)
+        }
+        debug {
+            info(attrParsed)
+        }
+        return attrParsed
     }
 
     fun onStart(player: Player, amount: Int) {

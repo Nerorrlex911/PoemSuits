@@ -1,25 +1,7 @@
 package com.github.zimablue.suits.internal.core.feature.display
 
 
-import com.comphenix.protocol.PacketType
-import com.comphenix.protocol.ProtocolLibrary
-import com.comphenix.protocol.events.ListenerPriority
-import com.comphenix.protocol.events.PacketAdapter
-import com.comphenix.protocol.events.PacketEvent
-import com.github.zimablue.suits.PoemSuits.plugin
-import com.github.zimablue.suits.PoemSuits.suitDataManager
-import com.github.zimablue.suits.PoemSuits.suitManager
-import com.github.zimablue.suits.PoemSuits.suitSlotManager
-import com.github.zimablue.suits.internal.core.feature.display.ItemDisplay.parse
-import com.github.zimablue.suits.internal.core.suit.SuitData
-import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import org.bukkit.GameMode
-import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
-import taboolib.common.platform.function.info
-import taboolib.common.platform.function.submit
 
 object ItemDisplay {
     private val modes = arrayOf(GameMode.SURVIVAL, GameMode.ADVENTURE)
@@ -59,6 +41,7 @@ object ItemDisplay {
         }
     }
      */
+    /* 虚拟lore过于傻逼，现已弃置
     @Awake(LifeCycle.ENABLE)
     fun packetListener() {
         ProtocolLibrary.getProtocolManager().addPacketListener(object :
@@ -121,4 +104,6 @@ object ItemDisplay {
             it.parseItem(this, player, amount)
         }
     }
+
+     */
 }

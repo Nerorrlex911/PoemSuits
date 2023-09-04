@@ -34,13 +34,14 @@ object SuitSlotManagerImpl : SuitSlotManager() {
         register(7,VanillaEquipSlot.LEGGINGS)
         register(8,VanillaEquipSlot.BOOTS)
     }
+    val displayMap = mutableMapOf<String,String>()
 
     val loremap_enable
         get() = slotConfig?.getBoolean("lore.loremap.enable")?:false
     val loremapMatch
         get() = slotConfig?.getString("lore.loremap.pattern.match")
     val loremapValue
-        get() = Pattern.compile(slotConfig?.getString("lore.loremap.pattern.value")?:": <slot>")
+        get() = Pattern.compile(slotConfig?.getString("lore.loremap.pattern.value")?:":(.*)")
 
     val loreMap = LoreMap<SuitOption>().apply { put(loremapMatch,SuitSlot) }
 
@@ -53,9 +54,16 @@ object SuitSlotManagerImpl : SuitSlotManager() {
         onReload()
     }
     override fun onReload() {
-        debug{ info("处理插件重载，更新槽位设置")}
+        debug{ info(
+            "处理插件重载，更新槽位设置",
+            "lore读取: $lore,loremap启用: $loremap_enable",
+            "nbt读取: $nbt,"
+        )}
         val slots = (slotConfig?.get("lore.key") as ConfigurationSection).toMap()
-            .mapValues { (k,v) -> v.toString() }
+            .mapValues { (k,v) ->
+                displayMap[v.toString()] = k
+                v.toString()
+            }
         putAll(slots)
     }
 
@@ -69,9 +77,13 @@ object SuitSlotManagerImpl : SuitSlotManager() {
     override fun checkSlot(item: ItemStack, slot: PlayerSlot): Boolean {
         debug { info("SuitSlotCheck>>  slot>> $slot","item>> $item") }
         if(item.isAir) return false
+        var result = false
         //nbt
         if (nbt) {
-            return item.getItemTag().getDeep("PoemSuits.slots")?.asList()?.any { it!=null&&it.asString()==slot.toString() }?:false
+            if(item.getItemTag().getDeep("PoemSuits.slots")
+                    ?.asList()?.any { it!=null&&it.asString()==slot.toString() } == true) {
+                result = true
+            }
         }
         //lore
         if(lore) {
@@ -79,29 +91,45 @@ object SuitSlotManagerImpl : SuitSlotManager() {
                 item.itemMeta?.lore?.let {lores ->
                     for(line in lores) {
                         // 在 LoreMap 中匹配属性
-                        val matchResult = loreMap.getMatchResult(line)?:return false
+                        val matchResult = loreMap.getMatchResult(line)?:continue
                         // 如果没匹配到则处理下一条
                         if (matchResult.obj != SuitSlot) {
-                            continue;
+                            continue
                         }
                         // 取属性描述右边剩下没匹配完的,没匹配完的啥也没有，说明属性右边没数字，跳过
-                        val remain = matchResult.remain ?: continue;
-                        val matched = loremapValue.matcher(remain).group("slot")?:return false
-
-                        debug {
+                        val remain = matchResult.remain ?: continue
+                        debug{
                             info(
                                 "remain: $remain",
-                                "matched: $matched"
+                                "loremapValue: $loremapValue"
                             )
                         }
-                        return matched == slot.toString()
+                        val matcher = loremapValue.matcher(remain)
+                        if(matcher.find()) {
+                            val matched = matcher.group(1)
+                            debug {
+                                info(
+                                    "remain: $remain",
+                                    "matched: $matched"
+                                )
+                            }
+                            if(matched == get(slot.toString())) {
+                                result = true
+                                break
+                            }
+                        }
+                    }
+                    debug {
+                        info(
+                            "result: $result"
+                        )
                     }
                 }
             } else {
-                return item.itemMeta?.lore?.contains(get(slot.toString())) ?: false
+                if(item.itemMeta?.lore?.contains(get(slot.toString()))==true) result =true
             }
         }
-        return false
+        return result
     }
 
 }

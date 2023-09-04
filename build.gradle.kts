@@ -25,7 +25,6 @@ taboolib {
         }
         dependencies {
             name("MythicMobs").optional(true)
-            name("ProtocolLib").optional(true)
             name("AttributeSystem").optional(true)
             name("SX-Attribute").optional(true)
             name("AttributePlus").optional(true)
@@ -47,7 +46,7 @@ taboolib {
     install("platform-bukkit")
     install("expansion-command-helper")
     classifier = null
-    version = "6.0.10-96"
+    version = "6.0.11-31"
 }
 
 repositories {

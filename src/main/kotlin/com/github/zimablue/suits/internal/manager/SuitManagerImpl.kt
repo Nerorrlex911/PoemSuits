@@ -54,6 +54,7 @@ object SuitManagerImpl: SuitManager() {
 
     override fun checkItem(item: ItemStack,slot: PlayerSlot?): MutableSet<Suit> {
         val suitSet = mutableSetOf<Suit>()
+        //如果限制槽位，且槽位检测未通过就返回空集合
         if(slot!=null&&!suitSlotManager.checkSlot(item,slot)) return suitSet
         forEach { (_,suit) ->
             if(suit.checkItem(item)) suitSet.add(suit)
