@@ -6,6 +6,7 @@ ExampleSuit:
 #        - "套装1"
 #        - "套装2"
 
+
     nbt: "测试套装"
   #动态lore，用于展示套装信息，发包lore已经弃置，现在只兼容龙核
   display:
@@ -36,7 +37,7 @@ ExampleSuit:
     #针对特定件数生效
     list:
       #这里可以使用公式计算
-      - "&7物理伤害: ${ calculate '${suit_amount} * 20' }"
+      - "&7物理伤害: { calculate '${suit_amount} * 20' }"
       - "&4火元素伤害: 10(%)"
       #【 { if check &suit_amount > 2 then '' else 'DELETE' } 】 的意思是，如果套装件数大于2，则不做任何事
       # 如果套装件数不大于2，则此行lore不显示（直接删除，不会有空行）

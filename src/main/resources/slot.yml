@@ -26,4 +26,5 @@ slot:
   #    slots:
   #      - MAINHAND
   #      - OFFHAND
+  #    如果是龙核槽位 要用DRAGON_CORE_槽位id
   nbt: true

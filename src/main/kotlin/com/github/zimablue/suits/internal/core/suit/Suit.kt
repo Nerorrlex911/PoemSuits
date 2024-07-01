@@ -131,7 +131,6 @@ class Suit(suitConfig: ConfigurationSection) : Keyable<String> {
         debug{ info("onTimer end Actions") }
         val uuid = player.uniqueId
         val task by lazy { suitDataManager[uuid]!!.suitTasks.remove(this@Suit) }
-        debug{info("task-${this@Suit}> $task")}
         task!!.cancel()
         for (action in timerActions) {
             if (action == null) continue

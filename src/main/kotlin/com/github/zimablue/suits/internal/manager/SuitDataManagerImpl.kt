@@ -9,12 +9,17 @@ import com.skillw.pouvoir.api.plugin.SubPouvoir
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.info
+import java.util.*
 
 object SuitDataManagerImpl: SuitDataManager() {
     override val key: String = "SuitDataManager"
     override val priority: Int = 5
     override val subPouvoir: SubPouvoir = PoemSuits
 
+    override fun onEnable() {
+        super.onEnable()
+        onReload()
+    }
     override fun onReload() {
         debug { info("处理插件重载，更新套装效果") }
         Bukkit.getOnlinePlayers().forEach { player ->
@@ -26,6 +31,15 @@ object SuitDataManagerImpl: SuitDataManager() {
         Bukkit.getOnlinePlayers().forEach { player ->
             endSuitEffect(player)
         }
+    }
+
+    override fun get(key: UUID): SuitData? {
+        var data = super.get(key)
+        if(data==null) {
+            data = register(key, SuitData(Bukkit.getPlayer(key)!!))
+            return data
+        }
+        return super.get(key)
     }
     override fun updateSuitData(player: Player) {
         endSuitEffect(player)

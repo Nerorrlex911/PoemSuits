@@ -1,14 +1,20 @@
+#是否开启debug模式，出现bug时可尝试开启并将后台输出信息发到群里询问
 debug: false
+#原版槽位是否计入套装，无特殊需求一般不用动
 vanilla: true
-
-
+#萌芽槽位
 germ_plugin_slot:
+  #是否启用
   enable: false
   slots:
+    #可计入套装的槽位名称
     - 111
     - 222
+#龙核槽位
 dragon_core_slot:
+  #是否启用
   enable: false
   slots:
+    #可计入套装的槽位名称
     - example1
     - example2

@@ -52,6 +52,6 @@ class SuitData(player: Player): Keyable<UUID>, BaseMap<Suit, Int>() {
     }
 
     override fun toString(): String {
-        return "suits>>${this.map},tasks>>${this.suitTasks}"
+        return "suits>>${this}"
     }
 }

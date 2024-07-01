@@ -1,6 +1,7 @@
 file-update: '&d[&9PoemSuit&d] &a检测到文件 &6{0} &a发生变动，已自动加载!'
 germ-hook: '&d[&9PoemSuit&d] &a萌芽槽位 &6{0} 注册成功'
 dragon-hook: '&d[&9PoemSuit&d] &a龙核槽位 &6{0} 注册成功'
+command-reload: '插件重载成功'
 command-message:
   - '&f&m─&6&m────────────────────────────────&6&f&m─'
   - ' &9指令列表:'

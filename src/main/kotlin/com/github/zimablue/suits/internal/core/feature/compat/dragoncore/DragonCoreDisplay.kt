@@ -2,6 +2,7 @@ package com.github.zimablue.suits.internal.core.feature.compat.dragoncore
 
 import com.github.zimablue.suits.PoemSuits.suitDataManager
 import com.github.zimablue.suits.PoemSuits.suitManager
+import com.github.zimablue.suits.internal.manager.PSConfig.debug
 import com.github.zimablue.suits.util.StringUtil.deleteLine
 import com.github.zimablue.suits.util.StringUtil.joinLine
 import com.github.zimablue.suits.util.StringUtil.longestLength
@@ -13,6 +14,7 @@ import eos.moe.dragoncore.network.PacketSender
 import eos.moe.dragoncore.util.ItemUtil
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.info
 import taboolib.module.chat.colored
 
 object DragonCoreDisplay {
@@ -33,9 +35,17 @@ object DragonCoreDisplay {
             )
             val suitLore = suit.displayReplace
                 .analysis(context).analysis(context).colored().splitLine().toMutableList().deleteLine()
-            placeHolder["PoemSuits_Info_${suit.key}"] = suitLore.joinToString("\n")
+            suitLore.forEachIndexed { index, s ->
+                placeHolder["PoemSuits_Info_${suit.key}_$index"] = s
+            }
             placeHolder["PoemSuits_RowCount_${suit.key}"] = suitLore.size.toString()
             placeHolder["PoemSuits_LongestLength_${suit.key}"] = suitLore.longestLength().toString()
+        }
+        debug{
+            info(
+                "placeHolder",
+                placeHolder
+            )
         }
         PacketSender.sendSyncPlaceholder(e.player,placeHolder)
     }
